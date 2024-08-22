@@ -28,6 +28,7 @@ app.get('/async-status', async (req, res) => {
 
 app.post('/git-scan/', async (req, res) => {
     let job_name = `scanjob${generateRandomString(5).toLowerCase()}`;
+    let job_id = generateRandomString(5).toLowerCase();
     let product_name = req.body.product_name;
     let branch = req.body.branch;
     let engagement_name = req.body.engagement_name;
@@ -40,7 +41,7 @@ app.post('/git-scan/', async (req, res) => {
         "--code-path=" + repository_link,
         "--commit-id=" + commit_id,
         "--branch=" + branch,
-        "--job-id=" + job_name,
+        "--job-id=" + job_id,
     ]
     if (product_name) {
         job_args.push("--product-name=" + product_name);
@@ -89,7 +90,7 @@ app.post('/git-scan/', async (req, res) => {
                     "containers": [
                         {
                             "name": "scanjob",
-                            "image": "asia.gcr.io/mgmt-infra-applayer-01-0864/hela:0.2",
+                            "image": "rohitcoder/hela",
                             "imagePullPolicy": "Always",
                             "args": job_args,
                         }
@@ -103,6 +104,7 @@ app.post('/git-scan/', async (req, res) => {
         let resp = await sendJobToK8S(scanJob);
         res.status(200).json({
             message: `Scan job ${job_name} started successfully!`,
+            job_id: job_id
         });
     }
     catch (err) {

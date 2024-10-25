@@ -28,7 +28,7 @@ app.get('/async-status', async (req, res) => {
 
 app.post('/git-scan/', async (req, res) => {
     let job_name = `scanjob${generateRandomString(5).toLowerCase()}`;
-    let job_id = generateRandomString(5).toLowerCase();
+    let job_id = req.body.job_id ? req.body.job_id.toLowerCase() : generateRandomString(5).toLowerCase();
     let product_name = req.body.product_name;
     let branch = req.body.branch;
     let engagement_name = req.body.engagement_name;

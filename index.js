@@ -31,17 +31,18 @@ app.post('/git-scan/', async (req, res) => {
     let job_id = req.body.job_id ? req.body.job_id.toLowerCase() : generateRandomString(5).toLowerCase();
     let product_name = req.body.product_name;
     let branch = req.body.branch;
+    let pr_branch = req.body.pr_branch;
     let engagement_name = req.body.engagement_name;
-    let commit_id = req.body.commit_id;
     let repository_link = req.body.repository_link;
     let modules = req.body.modules;
     let slack_url = req.body.slack_url;
     let policy_url = req.body.policy_url;
     let job_args = [
         "--code-path=" + repository_link,
-        "--commit-id=" + commit_id,
         "--branch=" + branch,
+        "--pr-branch=" + pr_branch,
         "--job-id=" + job_id,
+        "--verbose"
     ]
     if (product_name) {
         job_args.push("--product-name=" + product_name);

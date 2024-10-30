@@ -129,11 +129,11 @@ app.get('/job-status', async (req, res) => {
         if (job) {
             res.status(200).json({ "status_code": 200, ...job });
         } else {
-            res.status(200).json({ error: "Job not found, maybe its still processing?", "status_code": 404 });
+            res.status(200).json({ "message": "Job not found, maybe its still processing?", "status_code": 404 });
         }
     } catch (error) {
         console.error("Error fetching job status:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ "message": "Internal server error", "status_code": 500 });
     }
 });
 

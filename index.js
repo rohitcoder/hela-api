@@ -37,11 +37,17 @@ app.post('/git-scan/', async (req, res) => {
     let modules = req.body.modules;
     let slack_url = req.body.slack_url;
     let policy_url = req.body.policy_url;
+    let rule_path = req.body.rule_path;
+    // if rule_path not provided or blank then use default repo
+    if (!rule_path || rule_path === "") {
+        rule_path = "https://github.com/rohitcodergroww/semgrep-rules"
+    }
     let job_args = [
         "--code-path=" + repository_link,
         "--branch=" + branch,
         "--pr-branch=" + pr_branch,
         "--job-id=" + job_id,
+        "--rule-path=" + rule_path,
         "--verbose"
     ]
     if (product_name) {

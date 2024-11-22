@@ -181,7 +181,7 @@ app.post('/git-scan/', async (req, res) => {
                     "containers": [
                         {
                             "name": "scanjob",
-                            "image": "rohitcoder/hela:v8",
+                            "image": "rohitcoder/hela:v7",
                             "imagePullPolicy": "Always",
                             "args": job_args,
                         }

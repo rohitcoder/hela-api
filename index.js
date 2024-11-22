@@ -25,6 +25,90 @@ app.get('/async-status', async (req, res) => {
         message: status
     });
 });
+app.post('/whitelist-secret', async (req, res) => {
+    let secret = req.body.secret;
+    if (!secret) {
+        res.status(400).json({
+            message: "Please provide a secret",
+        });
+    }
+    try {
+        // first check if the secret already exists, if not then add it
+        const client = await db;
+        let secretObj = await client.collection("secrets").findOne({
+            secret:
+                { $eq: secret }
+        });
+        if (secretObj) {
+            res.status(200).json({
+                message: "Secret already exists",
+            });
+        }
+        else {
+            await client.collection("secrets").insertOne({ secret: secret });
+            res.status(200).json({
+                message: "Secret added successfully",
+            });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Failed to add secret",
+        });
+    }
+});
+
+app.post('/remove-secret', async (req, res) => {
+    let secret = req.body.secret;
+    if (!secret) {
+        res.status(400).json({
+            message: "Please provide a secret",
+        });
+    }
+    try {
+        const client = await db;
+        let secretObj = await client.collection("secrets").findOne({
+            secret:
+                { $eq: secret }
+        });
+        if (!secretObj) {
+            res.status(200).json({
+                message: "Secret doesn't exist",
+            });
+        }
+        else {
+            await client.collection("secrets").deleteOne({ secret: secret });
+            res.status(200).json({
+                message: "Secret removed successfully",
+            });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Failed to remove secret",
+        });
+    }
+}
+);
+
+app.get('/list-secrets', async (req, res) => {
+    try {
+        const client = await db;
+        const secrets = await client.collection("secrets").find({}).toArray();
+        res.status(200).json({
+            secrets: secrets
+        });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Failed to fetch secrets",
+        });
+    }
+}
+);
 
 app.post('/git-scan/', async (req, res) => {
     let job_name = `scanjob${generateRandomString(5).toLowerCase()}`;

@@ -4,7 +4,7 @@ const { generateRandomString } = require('./helper/functions');
 const { sendJobToK8S } = require('./helper/k8s');
 const dotenv = require('dotenv').config();
 const app = express();
-const port = 4001;
+const port = 4003;
 app.use(express.json());
 
 const env = process.env;
@@ -225,6 +225,10 @@ app.get('/job-status', async (req, res) => {
         console.error("Error fetching job status:", error);
         res.status(500).json({ "message": "Internal server error", "status_code": 500 });
     }
+});
+
+app.get('/policy.yaml', (req, res) => {
+    res.status(200).sendFile(__dirname + '/policy.yaml');
 });
 
 

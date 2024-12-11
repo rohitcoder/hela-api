@@ -4,7 +4,7 @@ const { generateRandomString } = require('./helper/functions');
 const { sendJobToK8S } = require('./helper/k8s');
 const dotenv = require('dotenv').config();
 const app = express();
-const port = 4003;
+const port = 4001;
 app.use(express.json());
 
 const env = process.env;

@@ -1,0 +1,5 @@
+## list in which conditions our pipeline should fail
+secret:
+  contains:
+  - GITHUB
+  - PRIVATEKEY

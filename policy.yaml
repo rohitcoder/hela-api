@@ -3,3 +3,6 @@ secret:
   contains:
   - GITHUB
   - PRIVATEKEY
+  - SLACK
+  - HONEYCOMB
+  - OPENAI

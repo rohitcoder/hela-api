@@ -175,7 +175,7 @@ app.post('/git-scan/', async (req, res) => {
             "name": job_name
         },
         "spec": {
-            "ttlSecondsAfterFinished": 3600,
+            "ttlSecondsAfterFinished": 60,
             "template": {
                 "spec": {
                     "containers": [
